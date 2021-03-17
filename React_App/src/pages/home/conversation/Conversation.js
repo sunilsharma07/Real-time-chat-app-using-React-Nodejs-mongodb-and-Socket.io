@@ -85,7 +85,7 @@ class Conversation extends Component {
     }
   }
 
-  sendMessage = (event) => {
+  sendMessage = async (event) => {
     const { userId, newSelectedUser } = this.props;
     if (event.key === 'Enter') {
       const message = event.target.value;
@@ -106,6 +106,8 @@ class Conversation extends Component {
       }
     } 
     else if(event.which !== 13) {
+      const message = event.target.value.trim();
+      const datamessagePreview = await ChatHttpServer.getlinkpreviewMessages(userId, message, newSelectedUser.id)
       this.typingMessages({
         fromUserId: userId,
         message: true,

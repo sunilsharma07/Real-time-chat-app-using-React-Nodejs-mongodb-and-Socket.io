@@ -96,6 +96,21 @@ class ChatHttpServer {
             }
         });
     }
+
+    getlinkpreviewMessages(userId, message, toUserId) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const response = await axios.post('http://localhost:4000/linkpreviewMessages', {
+                    userId: userId,
+                    message : message,
+                    toUserId: toUserId
+                });
+                resolve(response.data);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
     
 }
 

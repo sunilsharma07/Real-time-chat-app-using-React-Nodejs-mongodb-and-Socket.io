@@ -1,6 +1,7 @@
 const queryHandler = require('./../handlers/query-handler');
 const CONSTANTS = require('./../config/constants');
 const passwordHash = require('./../utils/password-hash');
+const {getLinkPreview, getPreviewFromContent} = require('link-preview-js')
 
 'use strict';
 class RouteHandler{
@@ -175,6 +176,19 @@ class RouteHandler{
 				});
 			}
 		}
+	}
+
+	async getlinkpreviewMessagesHandler(request, response) {
+		const userId = request.body.userId;
+		const toUserId = request.body.toUserId;
+		const message = request.body.message
+		// pass the link directly
+		getLinkPreview(message)
+			.then(function (data) {
+				return response.status(200).json({linkdata: data });
+			  }).catch(function (err) {
+				return response.status(202).json({linkdata: {}});
+			  });
 	}
 
 	routeNotFoundHandler(request, response){
