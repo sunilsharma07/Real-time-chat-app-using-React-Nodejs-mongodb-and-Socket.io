@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import debounce from "lodash/debounce";
+import Linkify from 'react-linkify';
 
 import ChatHttpServer from '../../../utils/chatHttpServer';
 import ChatSocketServer from '../../../utils/chatSocketServer';
@@ -173,7 +174,7 @@ class Conversation extends Component {
       <ul ref={this.messageContainer} className="message-thread">
         {
           this.state.conversations.map( (conversation, index) => 
-            <li className={`${this.alignMessages(conversation.toUserId) ? 'align-right' : ''}`} key={index}> {conversation.message} </li>
+            <li className={`${this.alignMessages(conversation.toUserId) ? 'align-right' : ''}`} key={index}> <Linkify> {conversation.message} </Linkify> </li>
           )
         }
       </ul>
