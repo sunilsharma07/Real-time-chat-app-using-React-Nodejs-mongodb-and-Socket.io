@@ -6,4 +6,5 @@
 3. Dynamic Meta Tags in React - get metadata website title with image like whatsapp
 4. send attatchment with vidoe / image
 5. for search add elastic-search 
-6. Group commit chat app
+6. Group comunication chat app
+7. seen msg flag with single user / group chatapp
