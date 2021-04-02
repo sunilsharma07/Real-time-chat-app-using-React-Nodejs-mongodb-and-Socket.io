@@ -7,6 +7,8 @@ import ChatSocketServer from '../../../utils/chatSocketServer';
 
 import './Conversation.css';
 
+import { LinkPreviewer } from '../link-previewer/linkpreviewer'
+
 class Conversation extends Component {
   
   constructor(props) {
@@ -16,7 +18,8 @@ class Conversation extends Component {
       conversations: [],
       selectedUser: null,
       state_typing: false,
-      show_user_state_typing : null
+      show_user_state_typing : null,
+      linkpreview_text : null
     }
     this.messageContainer = React.createRef();
     this.ref_typingmessage = React.createRef();
@@ -109,6 +112,7 @@ class Conversation extends Component {
     else if(event.which !== 13) {
       const message = event.target.value.trim();
       const datamessagePreview = await ChatHttpServer.getlinkpreviewMessages(userId, message, newSelectedUser.id)
+      this.setState({linkpreview_text : datamessagePreview.linkdata})
       this.typingMessages({
         fromUserId: userId,
         message: true,
@@ -137,7 +141,7 @@ class Conversation extends Component {
   handleTyping = debounce(function() { // continually delays setting "isTyping" to false for 500ms until the user has stopped typing and the delay runs out
   //https://stackoverflow.com/questions/54733003/how-to-properly-display-user-is-typing-using-reactjs
     this.setState({ state_typing: false, show_user_state_typing : null });
-}, 1000);
+}, 5000);
 
 
   sendAndUpdateMessages(message) {
@@ -195,7 +199,7 @@ class Conversation extends Component {
   }
 
   render() {
-    const { messageLoading, selectedUser,  show_user_state_typing} = this.state;
+    const { messageLoading, selectedUser,  show_user_state_typing, linkpreview_text} = this.state;
     return (
       <>
         <div className={`message-overlay ${!messageLoading ? 'visibility-hidden' : ''}`}>
@@ -217,6 +221,19 @@ class Conversation extends Component {
             <form>
               <textarea className="message form-control" placeholder="Type and hit Enter" onKeyPress={this.sendMessage}>
               </textarea>
+            </form>
+          </div>
+
+          <div className="message-typer">
+            <form>
+              {linkpreview_text !== null ?
+              <LinkPreviewer
+                href= {linkpreview_text.url}
+                image={linkpreview_text.images}
+                title={linkpreview_text.title}
+                text={linkpreview_text.description}
+              >
+              </LinkPreviewer> : '' }
             </form>
           </div>
         </div>
