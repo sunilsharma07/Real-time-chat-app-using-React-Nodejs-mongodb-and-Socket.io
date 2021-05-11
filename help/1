@@ -1,0 +1,24 @@
+
+add field
+
+db.getCollection('messages').update({}, {$set: {"msgRead": ""}},false,true);
+
+
+remove all records ..
+
+db.messages.remove({})
+
+
+get all records
+db.messages.find()
+
+
+
+db.messages.find()
+
+
+
+sort = {'timestamp': -1}
+db.messages.find({}, limit=10).sort(sort)
+
+db.messages.find().sort( { 'timestamp': -1 } ).limit(10)

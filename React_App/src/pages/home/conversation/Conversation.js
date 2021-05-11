@@ -105,6 +105,7 @@ class Conversation extends Component {
           fromUserId: userId,
           message: (message).trim(),
           toUserId: newSelectedUser.id,
+          timestamp : new Date().getTime()
         });
         event.target.value = '';
       }
